@@ -22,7 +22,7 @@ To summarize what happens: one model determines where the objects we need to kno
 
 This bot's two AI models is: 
 * an object detection model (ODM) that takes input from the screen then outputs object locations
-* a long short-term memory model (LTSMM) that takes in a feature vector and outputs a predicted feature vector
+* a long short-term memory model (LSTMM) that takes in a feature vector and outputs a predicted feature vector
 
 The full loop of data goes as follows:
 1. capture an image from the screen
@@ -30,7 +30,7 @@ The full loop of data goes as follows:
 3. filter and transform the objects location data into a feature vector
    * the feature vector's composition can be found in the section below (Information and Notes for Geeks)
 4. capture the keyboard arrow-key input and add it to the current feature vector
-5. feed the feature vector to the LTSMM and get the resulting predicted feature vector
+5. feed the feature vector to the LSTMM and get the resulting predicted feature vector
 6. extract the predicted arrow-key to be pushed from the predicted feature vector
 7. give the predicted arrow-key as a keyboard input to the computer on our behalf
 8. repeat
@@ -49,11 +49,11 @@ the feature vector is an array composed of 4 features: the location of a `block`
    * the purpose of this is to make predictions easier and more accurate by having 'off' and 'on' values for each catagory, which [can be further explained here](https://machinelearningmastery.com/why-one-hot-encode-data-in-machine-learning/)
 8. (8.,9.,10.) the key input represented as 'one hot encoding' for `left arrow-key`, `no key`, and `right arrow key`
 
-These values were chosen as both blocks and spikes can appear on screen and the vertical order they appear can affect what choice we make, along with the x coordinate determining what lane they may be in (however we cannot one-hot encode this easily due to parallax effecting x coordinates when the ship changes lane). The ship can be one-hot encodded as it tends to be at the same x coordinates for each lane and uneffected by any parallax and will always be at the very bottom (so no consideration is needed for the y coordinate).
+These values were chosen as both `blocks` and `spikes` can appear on screen and the vertical order they appear can affect what choice we make, along with the x coordinate determining what lane they may be in (however we cannot one-hot encode this easily due to parallax effecting x coordinates when the `ship` changes lane). The `ship` can be one-hot encodded as it tends to be at the same x coordinates for each lane and uneffected by any parallax and will always be at the very bottom (so no consideration is needed for the y coordinate).
 
 The ODM has currently an overall accuracy of >80%, with typically >95% confidence scores when it recognizes the actual object (i.e. it has very high confidence for true-positive matches, but infrequently has false-negatives for an expected `block` or `spike` object, and very rarely a false-negative for the `ship` object.) False positives with high confidence are very, very rare.
 
-The LTSMM has a training accuracy of ~85% and testing accuracy of ~80%. This inaccuracy typically resulted from predicting to enter or leave the expected lane slightly sooner than expected or slightly later than expected, but this perfectly acceptable as it is in the expected/desired lane when it mattered and had negligable impact on gameplay results.
+The LSTMM has a training accuracy of ~85% and testing accuracy of ~80%. This inaccuracy typically resulted from predicting to enter or leave the expected lane slightly sooner than expected or slightly later than expected, but this perfectly acceptable as it is in the expected/desired lane when it mattered and had negligable impact on gameplay results.
 
 details about the respective models can be found documented within the python files of the project.
 
