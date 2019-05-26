@@ -44,10 +44,11 @@ the feature vector is an array composed of 4 features: the location of a `block`
 2. the y coordinate of the lowest detected `block`
 3. the x coordinate of the lowest detected `spike`
 4. the y coordinate of the lowest detected `spike`
-5. (6.,7.) the location of the `ship` represented as 'one hot encoding' for `left lane`, `middle lane`, and `right lane`
+5. (5.,6.,7.) the location of the `ship` represented as 'one hot encoding' for `left lane`, `middle lane`, and `right lane`
    * [a one hot array is used to have a binary representation for all possible catagories](https://en.wikipedia.org/wiki/One-hot)
    * the purpose of this is to make predictions easier and more accurate by having 'off' and 'on' values for each catagory, which [can be further explained here](https://machinelearningmastery.com/why-one-hot-encode-data-in-machine-learning/)
-8. (9.,10.) the key input represented as 'one hot encoding' for `left arrow-key`, `no key`, and `right arrow key`
+8. (8.,9.,10.) the key input represented as 'one hot encoding' for `left arrow-key`, `no key`, and `right arrow key`
+
 These values were chosen as both blocks and spikes can appear on screen and the vertical order they appear can affect what choice we make, along with the x coordinate determining what lane they may be in (however we cannot one-hot encode this easily due to parallax effecting x coordinates when the ship changes lane). The ship can be one-hot encodded as it tends to be at the same x coordinates for each lane and uneffected by any parallax and will always be at the very bottom (so no consideration is needed for the y coordinate).
 
 The ODM has currently an overall accuracy of >80%, with typically >95% confidence scores when it recognizes the actual object (i.e. it has very high confidence for true-positive matches, but infrequently has false-negatives for an expected `block` or `spike` object, and very rarely a false-negative for the `ship` object.) False positives with high confidence are very, very rare.
